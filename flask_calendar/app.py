@@ -7,6 +7,7 @@ from typing import Dict, Optional
 from flask import Flask, Response, send_from_directory
 
 import config  # noqa: F401
+from flask_calendar import actions
 from flask_calendar.actions import (
     delete_task_action,
     do_login_action,
@@ -49,6 +50,7 @@ def create_app(config_overrides: Optional[Dict] = None) -> Flask:
     app.add_url_rule("/login", "login_action", login_action, methods=["GET"])
     app.add_url_rule("/do_login", "do_login_action", do_login_action, methods=["POST"])
     app.add_url_rule("/<calendar_id>/", "main_calendar_action", main_calendar_action, methods=["GET"])
+    app.add_url_rule("/set_view/<view_type>", "set_view_type", actions.set_view_type, methods=["GET"])
     app.add_url_rule(
         "/<calendar_id>/<year>/<month>/new_task",
         "new_task_action",

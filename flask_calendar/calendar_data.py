@@ -18,7 +18,6 @@ KEY_REPETITIVE_HIDDEN_TASK = "hidden_repetition"
 
 
 class CalendarData:
-
     REPETITION_TYPE_WEEKLY = "w"
     REPETITION_TYPE_MONTHLY = "m"
     REPETITION_SUBTYPE_WEEK_DAY = "w"
@@ -72,9 +71,10 @@ class CalendarData:
                 return True
         return False
 
-    def tasks_from_calendar(self, year: int, month: int, data: Dict) -> Dict:
+    def tasks_from_calendar(self, iterdays, data: Dict) -> Dict:
         if not data or KEY_TASKS not in data:
             raise ValueError("Incomplete data for calendar")
+
         if not all(
             [
                 KEY_NORMAL_TASK in data[KEY_TASKS],
@@ -86,13 +86,7 @@ class CalendarData:
 
         tasks = {}  # type: Dict
 
-        (
-            current_day,
-            current_month,
-            current_year,
-        ) = self.gregorian_calendar.current_date()
-
-        for day in self.gregorian_calendar.month_days(year, month):
+        for day in iterdays:
             month_str = str(day.month)
             year_str = str(day.year)
             if (
@@ -104,14 +98,10 @@ class CalendarData:
 
         return tasks
 
-    def hide_past_tasks(self, year: int, month: int, tasks: Dict) -> None:
-        (
-            current_day,
-            current_month,
-            current_year,
-        ) = self.gregorian_calendar.current_date()
+    def hide_past_tasks(self, iterdays, current_date, tasks: Dict) -> None:
+        (current_day, current_month, current_year) = current_date
 
-        for day in self.gregorian_calendar.month_days(year, month):
+        for day in iterdays:
             month_str = str(day.month)
 
             # empty past months and be careful of future dates, which might not have tasks
@@ -148,14 +138,8 @@ class CalendarData:
     def date_for_frontend(year: int, month: int, day: int) -> str:
         return "{0}-{1:02d}-{2:02d}".format(int(year), int(month), int(day))
 
-    def add_repetitive_tasks_from_calendar(self, year: int, month: int, data: Dict, tasks: Dict) -> Dict:
-        (
-            current_day,
-            current_month,
-            current_year,
-        ) = self.gregorian_calendar.current_date()
-
-        repetitive_tasks = self._repetitive_tasks_from_calendar(year, month, data)
+    def add_repetitive_tasks_from_calendar(self, iterdays, data: Dict, tasks: Dict) -> Dict:
+        repetitive_tasks = self._repetitive_tasks_from_calendar(iterdays, data)
 
         for repetitive_tasks_month in repetitive_tasks:
             for day, day_tasks in repetitive_tasks[repetitive_tasks_month].items():
@@ -303,16 +287,14 @@ class CalendarData:
             tasks[month_str][day_str] = []
         tasks[month_str][day_str].append(new_task)
 
-    def _repetitive_tasks_from_calendar(self, year: int, month: int, data: Dict) -> Dict:
+    def _repetitive_tasks_from_calendar(self, iterdays, data: Dict) -> Dict:
         if KEY_TASKS not in data:
             ValueError("Incomplete data for calendar")
         if KEY_REPETITIVE_TASK not in data[KEY_TASKS]:
             ValueError("Incomplete data for calendar")
 
         repetitive_tasks = {}  # type: Dict
-        year_and_months = set(
-            [(source_day.year, source_day.month) for source_day in self.gregorian_calendar.month_days(year, month)]
-        )
+        year_and_months = set([(source_day.year, source_day.month) for source_day in iterdays])
 
         for source_year, source_month in year_and_months:
             month_str = str(source_month)

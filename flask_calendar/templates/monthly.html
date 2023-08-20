@@ -13,10 +13,10 @@
 
     <div class="header">
         <input type="button" class="header-button" value="+"
-            onclick="window.location='/{{ calendar_id }}/{{ year }}/{{ month}}/new_task'" title="New task" />
-        <input type="button" class="header-button" value="&lt;" onclick="window.location='{{ previous_month_link }}'"
+            onclick="window.location='/{{ calendar_id }}/{{ year }}/{{ month }}/new_task'" title="New task" />
+        <input type="button" class="header-button" value="&lt;" onclick="window.location='{{ previous_link }}'"
             title="Previous month" />
-        <input type="button" class="header-button" value="&gt;" onclick="window.location='{{ next_month_link }}'"
+        <input type="button" class="header-button" value="&gt;" onclick="window.location='{{ next_link }}'"
             title="Next month" />
         <div class="current-date">
             {{ month_name }} {{ year }}
@@ -27,7 +27,11 @@
             </div>
         {% endif %}
         {% if display_view_past_button %}
+          <div>
+            <a id="weekly" class"weekly" type="button" href="/set_view/weekly">weekly</a>
+            <a id="monthly" class"monthly" type="button" href="/set_view/monthly">monthly</a>
             <input id="toggle-past-events" class="toggle-past-events" type="button" value="View Past" onclick="ToggleViewPastTasks();" />
+          </div>
         {% endif %}
     </div>
 
@@ -75,7 +79,7 @@
                                     <span class="time">{{ task["start_time"] }}{% if task["start_time"] != task["end_time"] %} - {{ task["end_time"] }}{% endif %}</span>
                                 {% endif %}
                                 {{ task["title"] }}
-                                <p class="accordion-hidden">
+                                <p class="accordion-visible">
                                     {{ task["details"]|task_details_for_markup|safe }}
                                     {% if day.month == month %}
                                         <a href="#"

@@ -47,3 +47,19 @@ class GregorianCalendar:
     @staticmethod
     def month_days_with_weekday(year: int, month: int) -> List[List[int]]:
         return calendar.Calendar(calendar.firstweekday()).monthdayscalendar(year, month)
+
+    @staticmethod
+    def week_days(year, month, day):
+        first_weekday = calendar.firstweekday()
+
+        current_date = datetime(year, month, day)
+        current_day = current_date.weekday()
+
+        while current_day != first_weekday:
+            current_date -= timedelta(days=1)
+            current_day = current_date.weekday()
+
+        for _ in range(7):
+            yield current_date
+            current_date += timedelta(days=1)
+
