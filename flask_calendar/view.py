@@ -128,12 +128,35 @@ class WeeklyView(CalendarView):
         return iterr()
 
 
+class DailyView(CalendarView):
+    template = "daily.html"
+
+    @property
+    def previous_link(self):
+        _datetime = tuple(reversed(self.requested_date))
+        date = datetime(*_datetime) - timedelta(days=1)
+        return f"?y={date.year}&m={date.month}&d={date.day}"
+
+    @property
+    def next_link(self):
+        _datetime = tuple(reversed(self.requested_date))
+        date = datetime(*_datetime) + timedelta(days=1)
+        return f"?y={date.year}&m={date.month}&d={date.day}"
+
+    def iterdays(self, current_date):
+        def iterr():
+            yield datetime(*tuple(reversed(self.requested_date)))
+
+        return iterr()
+
+
 class ViewType(Enum):
+    Daily = "daily"
     Weekly = "weekly"
     Monthly = "monthly"
 
 
-VIEWS = {ViewType.Weekly: WeeklyView, ViewType.Monthly: MonthlyView}
+VIEWS = {ViewType.Daily: DailyView, ViewType.Weekly: WeeklyView, ViewType.Monthly: MonthlyView}
 
 
 def fetch(calendar_id, view_type: ViewType):
