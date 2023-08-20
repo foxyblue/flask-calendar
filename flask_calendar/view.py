@@ -16,6 +16,7 @@ from flask_calendar.gregorian_calendar import GregorianCalendar
 class CalendarView:
     previous_link: Callable
     next_link: Callable
+    defaultday: int
     template: str
 
     def __init__(self, calendar_id: str) -> None:
@@ -33,6 +34,7 @@ class CalendarView:
     @property
     def requested_date(self):
         current_day, current_month, current_year = self.current_date
+        print("Current", self.current_date)
 
         year = int(request.args.get("y", current_year))
         year = max(min(year, current_app.config["MAX_YEAR"]), current_app.config["MIN_YEAR"])
@@ -46,19 +48,18 @@ class CalendarView:
         day, month, year = self.requested_date
         month_name = GregorianCalendar.MONTH_NAMES[month - 1]
 
-        current_date = (day, month, year)
         tasks = self.calendar_data.tasks_from_calendar(
-            self.iterdays(current_date),
+            self.iterdays(self.requested_date),
             self.data,
         )
         tasks = self.calendar_data.add_repetitive_tasks_from_calendar(
-            self.iterdays(current_date),
+            self.iterdays(self.requested_date),
             self.data,
             tasks,
         )
 
         if not view_past_tasks:
-            self.calendar_data.hide_past_tasks(self.iterdays(current_date), current_date, tasks)
+            self.calendar_data.hide_past_tasks(self.iterdays(self.requested_date), self.requested_date, tasks)
 
         return cast(
             Response,
@@ -67,11 +68,12 @@ class CalendarView:
                 calendar_id=self.calendar_id,
                 year=year,
                 month=month,
+                defaultday=self.defaultday,
                 month_name=month_name,
                 current_year=current_year,
                 current_month=current_month,
                 current_day=current_day,
-                month_days=self.iterdays(current_date),
+                month_days=self.iterdays(self.requested_date),
                 previous_link=self.previous_link,
                 next_link=self.next_link,
                 base_url=current_app.config["BASE_URL"],
@@ -94,6 +96,14 @@ class MonthlyView(CalendarView):
     def next_link(self):
         (_, month, year) = self.requested_date
         return app_utils.next_month_link(year, month)
+
+    @property
+    def defaultday(self):
+        _, month, day = self.current_date
+        _, rmonth, _ = self.requested_date
+        if month == rmonth:
+            return day
+        return 1
 
     def iterdays(self, current_date):
         def iterr():
@@ -119,6 +129,13 @@ class WeeklyView(CalendarView):
         date = datetime(*_datetime) + timedelta(days=7)
         return f"?y={date.year}&m={date.month}&d={date.day}"
 
+    @property
+    def defaultday(self):
+        _, month, _ = self.requested_date
+        for day in self.iterdays(self.requested_date):
+            if month == day.month:
+                return day.day
+
     def iterdays(self, current_date):
         def iterr():
             (day, month, year) = current_date
@@ -142,6 +159,11 @@ class DailyView(CalendarView):
         _datetime = tuple(reversed(self.requested_date))
         date = datetime(*_datetime) + timedelta(days=1)
         return f"?y={date.year}&m={date.month}&d={date.day}"
+
+    @property
+    def defaultday(self):
+        day, *_ = self.requested_date
+        return day
 
     def iterdays(self, current_date):
         def iterr():

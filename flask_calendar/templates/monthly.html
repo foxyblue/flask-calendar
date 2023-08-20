@@ -13,7 +13,7 @@
 
     <div class="header">
         <input type="button" class="header-button" value="+"
-            onclick="window.location='/{{ calendar_id }}/{{ year }}/{{ month }}/new_task'" title="New task" />
+            onclick="window.location='/{{ calendar_id }}/{{ year }}/{{ month }}/{{ defaultday }}/new_task'" title="New task" />
         <input type="button" class="header-button" value="&lt;" onclick="window.location='{{ previous_link }}'"
             title="Previous month" />
         <input type="button" class="header-button" value="&gt;" onclick="window.location='{{ next_link }}'"
@@ -26,11 +26,14 @@
                 <a href="/{{ calendar_id }}/">back to current</a>
             </div>
         {% endif %}
+
+        {% set requested_date = "y=" ~ year ~ "&m=" ~ month ~ "&d=" ~ defaultday %}
+
         {% if display_view_past_button %}
           <div>
-            <a id="daily" class"daily" type="button" href="/set_view/daily">daily</a>
-            <a id="weekly" class"weekly" type="button" href="/set_view/weekly">weekly</a>
-            <a id="monthly" class"monthly" type="button" href="/set_view/monthly">monthly</a>
+            <a id="daily" class"daily" type="button" href="/{{ calendar_id }}/set_view/daily?{{ requested_date }}">daily</a>
+            <a id="weekly" class"weekly" type="button" href="/{{ calendar_id }}/set_view/weekly?{{ requested_date }}">weekly</a>
+            <a id="monthly" class"monthly" type="button" href="/{{ calendar_id }}/set_view/monthly?{{ requested_date }}">monthly</a>
             <input id="toggle-past-events" class="toggle-past-events" type="button" value="View Past" onclick="ToggleViewPastTasks();" />
           </div>
         {% endif %}
@@ -54,12 +57,13 @@
                 data-month="{{ day.month }}"
                 data-day="{{ day.day }}">
 
-                {% if day.day == current_day and day.month == current_month and day.year == current_year %}
+                <a href="/{{ calendar_id }}/set_view/daily?y={{ day.year }}&m={{ day.month }}&d={{ day.day }}">
+                {% if (day.year, day.month, day.day) == (current_year, current_month, current_day) %}
                         <span class="daynumber-current">
                 {% else %}
                         <span class="daynumber">
-                {% endif %}
-                {{ day.day }}</span>
+                {% endif %}{{ day.day }}</span>
+                </a>
                 <ul class="tasks">
                     {% if day.month|string in tasks and day.day|string in tasks[day.month|string] %}
                         {% for task in tasks[day.month|string][day.day|string]|sort(attribute="start_time") %}
@@ -332,8 +336,7 @@
             } else {
                 clearTimeout(clicksTimeout);
                 clicksCounter = 0;
-                window.location = "/{{ calendar_id }}/{{ year }}/{{ month }}/new_task?day=" +
-                                    eventData.target.getAttribute("data-day");
+                window.location = `/{{ calendar_id }}/{{ year }}/{{ month }}/${eventData.target.getAttribute("data-day")}/new_task`
             }
             return;
         }

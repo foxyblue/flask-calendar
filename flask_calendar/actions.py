@@ -79,14 +79,17 @@ def main_calendar_action(calendar_id: str) -> Response:
     return view.fetch(calendar_id, view_type)
 
 
-def set_view_type(view_type: str):
+@authenticated
+@authorized
+def set_view_type(calendar_id: str, view_type: str):
     session["view"] = view_type
-    return redirect(url_for("index_action"))
+
+    return redirect(url_for("main_calendar_action", calendar_id=calendar_id, **dict(**request.args)))
 
 
 @authenticated
 @authorized
-def new_task_action(calendar_id: str, year: int, month: int) -> Response:
+def new_task_action(calendar_id: str, year: int, month: int, day: int) -> Response:
     GregorianCalendar.setfirstweekday(current_app.config["WEEK_STARTING_DAY"])
 
     current_day, current_month, current_year = GregorianCalendar.current_date()
@@ -94,10 +97,6 @@ def new_task_action(calendar_id: str, year: int, month: int) -> Response:
     month = max(min(int(month), 12), 1)
     month_names = GregorianCalendar.MONTH_NAMES
 
-    if current_month == month and current_year == year:
-        day = current_day
-    else:
-        day = 1
     day = int(request.args.get("day", day))
 
     task = {
