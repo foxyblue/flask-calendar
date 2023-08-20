@@ -7,6 +7,7 @@ BASE_URL = "http://0.0.0.0:5000"
 MIN_YEAR = 2017
 MAX_YEAR = 2200
 PASSWORD_SALT = "something random and full of non-standard characters"
+SECRET_KEY = "hahah"
 HOST_IP = "0.0.0.0"  # set to None for production
 LOCALE = "en_US.UTF-8"
 # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
