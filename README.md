@@ -2,8 +2,7 @@
 
 # flask-calendar
 
-- Daily View
-- Trip Planner
+- Conversion
 - Budgeting?
 
 ## Introduction

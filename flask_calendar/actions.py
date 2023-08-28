@@ -106,8 +106,7 @@ def new_task_action(calendar_id: str, year: int, month: int, day: int) -> Respon
         "details": "",
     }
 
-    emojis_enabled = current_app.config.get("EMOJIS_ENABLED", False)
-
+    # TODO: Redirect after adding
     return cast(
         Response,
         render_template(
@@ -121,10 +120,9 @@ def new_task_action(calendar_id: str, year: int, month: int, day: int) -> Respon
             task=task,
             base_url=current_app.config["BASE_URL"],
             editing=False,
-            emojis_enabled=emojis_enabled,
             button_default_color_value=current_app.config["BUTTON_CUSTOM_COLOR_VALUE"],
             buttons_colors=current_app.config["BUTTONS_COLORS_LIST"],
-            buttons_emojis=current_app.config["BUTTONS_EMOJIS_LIST"] if emojis_enabled else tuple(),
+            EMOJI_SECTIONS=current_app.config["EMOJI_SECTIONS"],
         ),
     )
 
@@ -155,8 +153,6 @@ def edit_task_action(calendar_id: str, year: int, month: int, day: int, task_id:
     if task["details"] == "&nbsp;":
         task["details"] = ""
 
-    emojis_enabled = current_app.config.get("EMOJIS_ENABLED", False)
-
     return cast(
         Response,
         render_template(
@@ -171,10 +167,9 @@ def edit_task_action(calendar_id: str, year: int, month: int, day: int, task_id:
             task=task,
             base_url=current_app.config["BASE_URL"],
             editing=True,
-            emojis_enabled=emojis_enabled,
             button_default_color_value=current_app.config["BUTTON_CUSTOM_COLOR_VALUE"],
             buttons_colors=current_app.config["BUTTONS_COLORS_LIST"],
-            buttons_emojis=current_app.config["BUTTONS_EMOJIS_LIST"] if emojis_enabled else tuple(),
+            EMOJI_SECTIONS=current_app.config["EMOJI_SECTIONS"],
         ),
     )
 

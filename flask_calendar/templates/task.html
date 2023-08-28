@@ -177,12 +177,16 @@
             <input type="hidden" value="{{ task.get("color", button_default_color_value) }}" id="color" name="color" />
             <br/>
 
-            {% if emojis_enabled %}
-                {% for emoji in buttons_emojis %}
-                    <input class="form-button emoji" type="button" value="{{ emoji }}" />
-                {% endfor %}
-                <br/>
-            {% endif %}
+            {% for section, buttons_emojis in EMOJI_SECTIONS.items() %}
+              <div>
+                <span>{{ section }}</span>
+              </div>
+              {% for emoji in buttons_emojis %}
+                  <input class="form-button emoji" type="button" value="{{ emoji }}" />
+              {% endfor %}
+            {% endfor %}
+            <br/>
+
         </div>
 
         <input class="form-button" type="submit" value="Save" />

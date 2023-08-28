@@ -53,22 +53,16 @@ BUTTONS_COLORS_LIST = (
     ("#3D3D3D", "Black"),
 )
 # Emojis for new task buttons
-BUTTONS_EMOJIS_LIST = (
-    "💬",
-    "📞",
-    "🍔",
-    "🍺",
-    "📽️",
-    "🎂",
-    "🏖️",
-    "💻",
-    "📔",
-    "✂️",
-    "🚂",
-    "🏡",
-    "🐶",
-    "🐱",
-)
+EMOJI_SECTIONS = {
+    "travel": ["🌍", "🏨", "🗺️", "📷", "🏙️", "⛺"],
+    "transport": ["🚗", "🚕", "🚲", "🚂'", "🚆", "🚌", "🚢", "🛂", "✈️", "🚁", "🧳"],
+    "eating": ["🍔", "🍕", "🍝", "🍣", "🍦", "☕", "🍰", "🍿", "🥗"],
+    "activities": ["🎿", "⛷️", "🏂"],
+    "accommodation": ["🛌", "😴", "🏡"],
+    "sites": ["⛩️", "🏯", "🌸", "🌄", "🗼"],
+    "flags": ["🇯🇵", "🇰🇷", "🇳🇴", "🇸🇪"],
+}
+
 
 # percent of chance to do a GC-like sweep on save and clean empty and/or past hidden entries.
 # values [0, 100] -> Note that 0 disables it, 100 makes it run every time

@@ -99,7 +99,7 @@ class MonthlyView(CalendarView):
 
     @property
     def defaultday(self):
-        _, month, day = self.current_date
+        day, month, _ = self.current_date
         _, rmonth, _ = self.requested_date
         if month == rmonth:
             return day
