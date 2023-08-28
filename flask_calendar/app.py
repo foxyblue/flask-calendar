@@ -3,6 +3,7 @@
 import locale
 import os
 from typing import Dict, Optional
+import calendar
 
 from flask import Flask, Response, send_from_directory
 
@@ -24,9 +25,12 @@ from flask_calendar.actions import (
 from flask_calendar.app_utils import task_details_for_markup
 
 
+
 def create_app(config_overrides: Optional[Dict] = None) -> Flask:
     app = Flask(__name__)
     app.config.from_object("config")
+
+    app.jinja_env.filters["month_name"] = lambda x: calendar.month_name[x]
 
     if config_overrides is not None:
         app.config.from_mapping(config_overrides)

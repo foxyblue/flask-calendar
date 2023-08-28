@@ -1,42 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Calendar</title>
-    <link rel="stylesheet" href="{{ url_for("static", filename="style.css") }}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for("static", filename="") }}favicon_{{ current_day }}.png" id="favicon">
-    <meta name="viewport" content="width=400" />
-</head>
-<body>
+{% set day = month_days | first %}
+{% set requested_date = "y=" ~ year ~ "&m=" ~ month ~ "&d=" ~ defaultday %}
 
-    <div id="statusbar" class="">Processing...</div>
 
-    {% set day = month_days | first %}
-    {% set requested_date = "y=" ~ year ~ "&m=" ~ month ~ "&d=" ~ defaultday %}
+{% extends "base.html" %}
 
-    <div class="header">
-        <input type="button" class="header-button" value="+"
-            onclick="window.location='/{{ calendar_id }}/{{ year }}/{{ month }}/{{ defaultday }}/new_task'" title="New task" />
-        <input type="button" class="header-button" value="&lt;" onclick="window.location='{{ previous_link }}'"
-            title="Previous month" />
-        <input type="button" class="header-button" value="&gt;" onclick="window.location='{{ next_link }}'"
-            title="Next month" />
-        <div class="current-date">
-            {{ month_name }} {{ year }}
-        </div>
-        {% if month != current_month or year != current_year %}
-            <div class="back-to-current">
-                <a href="/{{ calendar_id }}/">back to current</a>
-            </div>
-        {% endif %}
-        {% if display_view_past_button %}
-          <div>
-            <a id="daily" class"daily" type="button" href="/{{ calendar_id }}/set_view/daily?{{ requested_date }}">daily</a>
-            <a id="weekly" class"weekly" type="button" href="/{{ calendar_id }}/set_view/weekly?{{ requested_date }}">weekly</a>
-            <a id="monthly" class"monthly" type="button" href="/{{ calendar_id }}/set_view/monthly?{{ requested_date }}">monthly</a>
-          </div>
-        {% endif %}
-    </div>
+{% block content %}
 
     {% if day.day == current_day and day.month == current_month and day.year == current_year %}
             <span class="daynumber-current">
@@ -362,5 +330,4 @@
         return;
     };
 </script>
-</body>
-</html>
+{% endblock %}

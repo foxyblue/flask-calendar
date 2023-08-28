@@ -34,7 +34,6 @@ class CalendarView:
     @property
     def requested_date(self):
         current_day, current_month, current_year = self.current_date
-        print("Current", self.current_date)
 
         year = int(request.args.get("y", current_year))
         year = max(min(year, current_app.config["MAX_YEAR"]), current_app.config["MIN_YEAR"])
@@ -46,7 +45,6 @@ class CalendarView:
     def render(self, view_past_tasks: bool, weekdays_headers: list):
         current_day, current_month, current_year = self.current_date
         day, month, year = self.requested_date
-        month_name = GregorianCalendar.MONTH_NAMES[month - 1]
 
         tasks = self.calendar_data.tasks_from_calendar(
             self.iterdays(self.requested_date),
@@ -69,10 +67,10 @@ class CalendarView:
                 year=year,
                 month=month,
                 defaultday=self.defaultday,
-                month_name=month_name,
                 current_year=current_year,
                 current_month=current_month,
                 current_day=current_day,
+                future_months=list(self.calendar_data.gregorian_calendar.next_12_months(current_year, current_month)),
                 month_days=self.iterdays(self.requested_date),
                 previous_link=self.previous_link,
                 next_link=self.next_link,

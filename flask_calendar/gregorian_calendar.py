@@ -36,6 +36,15 @@ class GregorianCalendar:
         return next_month_date.month, next_month_date.year
 
     @staticmethod
+    def next_12_months(year: int, month: int):
+        for _ in range(12):
+            month += 1
+            if month > 12:
+                month = 1
+                year += 1
+            yield year, month
+
+    @staticmethod
     def current_date() -> Tuple[int, int, int]:
         today_date = datetime.date(datetime.now())
         return today_date.day, today_date.month, today_date.year

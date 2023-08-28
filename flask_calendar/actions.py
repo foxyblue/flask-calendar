@@ -101,7 +101,7 @@ def new_task_action(calendar_id: str, year: int, month: int, day: int) -> Respon
 
     task = {
         "date": CalendarData.date_for_frontend(year, month, day),
-        "is_all_day": True,
+        "is_all_day": False,
         "repeats": False,
         "details": "",
     }
