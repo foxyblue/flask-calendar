@@ -144,31 +144,53 @@
         </tr>
         <tr>
             <th>Day/Night</th>
-            <th class="daytime">Daytime</th>
-            <th class="nighttime">Nighttime</th>
-            <th class="daytime">Daytime</th>
-            <th class="nighttime">Nighttime</th>
-            <th class="daytime">Daytime</th>
-            <th class="nighttime">Nighttime</th>
+            {% for item in weather.dataset %}
+              <th class="daytime">{{ item.time_period.name  }}</th>
+            {% endfor %}
         </tr>
+
         <tr>
-            <th>Temperature (°C)</th>
-            <td class="daytime">25</td>
-            <td class="nighttime">15</td>
-            <td class="daytime">23</td>
-            <td class="nighttime">12</td>
-            <td class="daytime">22</td>
-            <td class="nighttime">11</td>
+            <th>Max Temp (°C)</th>
+            {% for item in weather.dataset %}
+              <td class="daytime">{{ item.max_temp }}</td>
+            {% endfor %}
         </tr>
+
         <tr>
-            <th>Conditions</th>
-            <td class="daytime">Sunny</td>
-            <td class="nighttime">Clear</td>
-            <td class="daytime">Partly Cloudy</td>
-            <td class="nighttime">Cloudy</td>
-            <td class="daytime">Rainy</td>
-            <td class="nighttime">Rainy</td>
+            <th>Min Temp (°C)</th>
+            {% for item in weather.dataset %}
+              <td class="daytime">{{ item.min_temp }}</td>
+            {% endfor %}
         </tr>
+
+        <tr>
+            <th>Chance of Rain</th>
+            {% for item in weather.dataset %}
+              <td class="daytime">{{ item.chance_of_rain }}%</td>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <th>Average Windspeed (Km/h)</th>
+            {% for item in weather.dataset %}
+              <td class="daytime">{{ item.ave_windspeed }}</td>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <th>Time Of Highest UV</th>
+            {% for item in weather.dataset %}
+              <td class="daytime">{{ item.time_of_highest_uv.time }}</td>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <th>Highest UV</th>
+            {% for item in weather.dataset %}
+              <td class="daytime">{{ item.time_of_highest_uv.index }}</td>
+            {% endfor %}
+        </tr>
+
     </table>
 
 

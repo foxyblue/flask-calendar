@@ -43,7 +43,9 @@ def index_action() -> Response:
 
 def login_action() -> Response:
     with open("weather.txt") as file:
-        dataset = [msgspec.convert(item, type=Datapoint) for item in json.loads(file)]
+        payload = json.loads(file.read())
+
+    dataset = [msgspec.convert(item, type=Datapoint) for item in payload]
 
     weather = Weather(dataset)
     return cast(
