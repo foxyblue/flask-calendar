@@ -6,8 +6,118 @@
     <link rel="stylesheet" href="{{ url_for("static", filename="style.css") }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ url_for("static", filename="favicon.ico") }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        :root {
+            --text-colour: #D2B48C;
+        }
+
+       body {
+            background-color: #212121;
+            color: var(--text-colour);
+            font-family: "Courier New", monospace;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center horizontally */
+            justify-content: center; /* Center vertically */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            border-bottom: 2px solid #D2B48C;
+            padding-bottom: 10px;
+        }
+
+
+        table {
+            border-collapse: seperate;
+            border-spacing: 10px 0px;
+            border-radius: 5px;
+            border: 1px solid var(--text-colour);
+            padding-bottom: 8px;
+        }
+
+        th {
+            font-weight: bold;
+            border: 1px solid var(--text-colour);
+        }
+
+        td, th {
+            border: none;
+            padding: 8px;
+        }
+        /* Left-align the text in the first column */
+        td:first-child, th:first-child {
+            text-align: left;
+        }
+
+        /* Borders for daytime and nighttime attributes */
+        .daytime, .nighttime {
+            border: 1px solid var(--text-colour);
+            padding: 8px;
+        }
+
+        /* Digital clock styling */
+        #clock {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+
+        /* Form styling */
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            color: #000;
+            background-color: var(--sepia-brown); /* Use the sepia brown variable */
+        }
+
+        input[type="submit"] {
+            background-color: var(--sepia-brown); /* Use the sepia brown variable */
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            color: var(--text-colour);
+            border: 1px solid var(--text-colour);
+        }
+
+    </style>
 </head>
 <body>
+    <div id="clock"></div>
+    <script>
+        function updateClock() {
+            const timezone = 'Asia/Tokyo';
+            const options = { timeZone: timezone, hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const now = new Date().toLocaleTimeString('en-GB', options);
+            document.getElementById('clock').textContent = `Time: ${now} (${timezone})`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial update
+    </script>
+
+    <br>
 
     <form autocomplete="off" method="POST" action="{{ base_url }}/do_login">
         <label for="text">Username</label>
@@ -22,6 +132,45 @@
 
         <input class="form-button" type="submit" value="Login" />
     </form>
+
+    <h3>Weather Forecast for the Next Three Days</h1>
+
+    <table>
+        <tr>
+            <th>Date</th>
+            <th colspan="2">2023-09-14</th>
+            <th colspan="2">2023-09-15</th>
+            <th colspan="2">2023-09-16</th>
+        </tr>
+        <tr>
+            <th>Day/Night</th>
+            <th class="daytime">Daytime</th>
+            <th class="nighttime">Nighttime</th>
+            <th class="daytime">Daytime</th>
+            <th class="nighttime">Nighttime</th>
+            <th class="daytime">Daytime</th>
+            <th class="nighttime">Nighttime</th>
+        </tr>
+        <tr>
+            <th>Temperature (°C)</th>
+            <td class="daytime">25</td>
+            <td class="nighttime">15</td>
+            <td class="daytime">23</td>
+            <td class="nighttime">12</td>
+            <td class="daytime">22</td>
+            <td class="nighttime">11</td>
+        </tr>
+        <tr>
+            <th>Conditions</th>
+            <td class="daytime">Sunny</td>
+            <td class="nighttime">Clear</td>
+            <td class="daytime">Partly Cloudy</td>
+            <td class="nighttime">Cloudy</td>
+            <td class="daytime">Rainy</td>
+            <td class="nighttime">Rainy</td>
+        </tr>
+    </table>
+
 
 </body>
 </html>

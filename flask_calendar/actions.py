@@ -1,12 +1,15 @@
 import re
+import json
 from datetime import date, timedelta
 from typing import List, Optional, Tuple, cast  # noqa: F401
 
+import msgspec
 from flask import abort, current_app, g, jsonify, make_response, redirect, render_template, request, session, url_for
 from werkzeug.wrappers import Response
 
 import flask_calendar.constants as constants
 from flask_calendar import view
+from flask_calendar.weather import Weather, Datapoint
 from flask_calendar.app_utils import (
     add_session,
     authenticated,
@@ -39,7 +42,17 @@ def index_action() -> Response:
 
 
 def login_action() -> Response:
-    return cast(Response, render_template("login.html"))
+    with open("weather.txt") as file:
+        dataset = [msgspec.convert(item, type=Datapoint) for item in json.loads(file)]
+
+    weather = Weather(dataset)
+    return cast(
+        Response,
+        render_template(
+            "login.html",
+            weather=weather,
+        ),
+    )
 
 
 def do_login_action() -> Response:

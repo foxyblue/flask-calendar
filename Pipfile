@@ -15,6 +15,7 @@ pre-commit = "==3.3.3"
 black = "*"
 ruff = "*"
 gunicorn = "*"
+msgspec = "*"
 
 [dev-packages]
 
