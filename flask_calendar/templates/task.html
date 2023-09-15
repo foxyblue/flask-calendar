@@ -161,6 +161,11 @@
 
         </div>
 
+        <label for="text">Traveling To:</label>
+        <input type="text" autocomplete="off" tabindex="0" placeholder="Location" value="{{ task.get("travel_to", "") }}"
+            id="travel_to" name="travel_to" minlength="2" />
+        <br/>
+
         <label for="details">Details</label><br/>
         <textarea id="details" name="details" placeholder="Details" autocomplete="off" cols="42"
             rows="8">{{ task["details"]|replace("<br>","\n") }}</textarea>
@@ -318,6 +323,8 @@
                     case "form-button color":
                         document.getElementById("color").value = eventData.target.getAttribute("data-color");
                         document.getElementById("color_custom").value = eventData.target.getAttribute("data-color");
+                        document.getElementById("details").style.backgroundColor = eventData.target.getAttribute("data-color");
+                        document.getElementById("title").style.backgroundColor = eventData.target.getAttribute("data-color");
                         return false;
                         break;
                     case "form-button emoji":

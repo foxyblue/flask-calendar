@@ -223,6 +223,7 @@ class CalendarData:
         repetition_type: Optional[str],
         repetition_subtype: Optional[str],
         repetition_value: int,
+        travel_to: Optional[str] = None,
         end_time: Optional[str] = None,
     ) -> bool:
         details = details if len(details) > 0 else "&nbsp;"
@@ -236,6 +237,7 @@ class CalendarData:
             "is_all_day": is_all_day,
             "title": title,
             "details": details,
+            "travel_to": travel_to,
         }
         if has_repetition:
             if repetition_type == self.REPETITION_SUBTYPE_MONTH_DAY and repetition_value == 0:

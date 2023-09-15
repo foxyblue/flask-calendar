@@ -1,8 +1,24 @@
+:root {
+  --background-colour: #212121;
+  --background-colour-alt: #505050;
+  --text-colour: #D2B48C;
+}
+
 body {
-    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-family: "Courier New", monospace;
     font-size: 1em/1.4;
-    color: #222;
-    background-color: #FCFCFC;
+    color: var(--text-colour);
+    background-color: var(--background-colour);
+}
+
+input[type="button"] {
+  color: var(--text-colour);
+  background-color: var(--background-colour);
+}
+
+a:-webkit-any-link {
+  color: var(--text-colour);
+  background-color: var(--background-colour);
 }
 
 li {
@@ -14,7 +30,7 @@ li {
 }
 
 .header .current-date {
-    color: #444;
+    color: var(--text-colour);
     display: inline;
     font-weight: 700;
     font-size: 1.5em;
@@ -31,7 +47,7 @@ li {
 }
 
 .header .back-to-current a {
-    color: #444;
+    color: var(--text-colour);
     text-decoration: underline;
 }
 
@@ -115,8 +131,8 @@ li {
 }
 
 .weekday-header {
-  background-color: #F6F6F6;
-  color: #666;
+  background-color: var(--background-colour);
+  color: var(--text-colour);
   padding: 3px;
   margin: 0;
   list-style:none;
@@ -144,7 +160,7 @@ li {
 }
 
 .day {
-  background-color: #F9F9F9;
+  background-color: var(--background-colour);
   padding: 3px;
   margin: 0;
   min-height: 120px;
@@ -160,11 +176,10 @@ li {
 }
 
 .task.greyed {
-    background-color:#B8B8B8 !important;
 }
 
 .othermonth {
-  background-color: #F3F3F3;
+  background-color: var(--background-colour-alt);
   cursor: auto;
 }
 
@@ -175,7 +190,7 @@ span.time {
 span.daynumber {
     font-size: 13.5px;
     font-weight: 400;
-    color: #666;
+    color: var(--text-colour);
     padding: 3px;
 }
 
@@ -189,12 +204,13 @@ span.daynumber-current {
 }
 
 .othermonth span.daynumber {
-    color: #777774;
+    color: var(--text-colour);
+    background-color: var(--background-colour-alt);
 }
 
 ul.tasks {
     font-weight: 400;
-    font-size: 12px;
+    font-size: 14px;
     margin: 1px;
     margin-top: 3px;
     padding: 0;
@@ -202,7 +218,7 @@ ul.tasks {
 
 ul.tasks li {
     background-color: #444;
-    color: #FEFEFE;
+    color: #000;
     margin-bottom: 1px;
     padding: 1px 4px 2px 2px;
     cursor: pointer;
@@ -210,8 +226,13 @@ ul.tasks li {
 }
 
 ul.tasks li a {
-    color: #F0F0F0;
+    color: #120046;
+    background-color: #FFF;
 
+}
+
+.task .title {
+  font-weight: bold;
 }
 
 .accordion-hidden {
@@ -236,6 +257,12 @@ ul.tasks li a {
 .task-details-form label {
     font-weight: 700;
     margin-top: 6px;
+}
+
+.task-details-form::placeholder {
+    font-weight: 700;
+    margin-top: 6px;
+    color: #000;
 }
 
 #statusbar {

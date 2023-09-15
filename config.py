@@ -41,16 +41,16 @@ COOKIE_SAMESITE_POLICY = "Lax"
 EMOJIS_ENABLED = True
 
 # Colors for new task buttons
-BUTTON_CUSTOM_COLOR_VALUE = "#3EB34F"
+BUTTON_CUSTOM_COLOR_VALUE = "#7bd188"
 BUTTONS_COLORS_LIST = (
-    ("#FF4848", "Red"),
-    ("#3EB34F", "Green"),
-    ("#2966B8", "Blue"),
-    ("#808080", "Grey"),
-    ("#B05F3C", "Brown"),
-    ("#9588EC", "Purple"),
-    ("#F2981A", "Orange"),
-    ("#3D3D3D", "Black"),
+    ("#ffa6a6", "Red"),
+    ("#7bd188", "Green"),
+    ("#a0c0ea", "Blue"),
+    ("#bebebe", "Grey"),
+    ("#dfb5a2", "Brown"),
+    ("#beb6f3", "Purple"),
+    ("#f5b356", "Orange"),
+    ("#dbdbdb", "Black"),
 )
 # Emojis for new task buttons
 EMOJI_SECTIONS = {

@@ -44,7 +44,7 @@
                                 {% if not task["is_all_day"] %}
                                     <span class="time">{{ task["start_time"] }}{% if task["start_time"] != task["end_time"] %} - {{ task["end_time"] }}{% endif %}</span>
                                 {% endif %}
-                                {{ task["title"] }}
+                                <span class="task title">{{ task["title"] }}</span>
                                 <p class="accordion-visible">
                                     {{ task["details"]|task_details_for_markup|safe }}
                                     {% if day.month == month %}
