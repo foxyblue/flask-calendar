@@ -353,8 +353,9 @@ class CalendarData:
 
     def _save_calendar(self, data: Dict, filename: str) -> None:
         if random.randint(0, 99) < current_app.config.get("GC_ON_SAVE_CHANCE", 100):
-            self._clear_empty_entries(data)
-            self._clear_past_hidden_entries(data)
+            pass
+            # self._clear_empty_entries(data)
+            # self._clear_past_hidden_entries(data)
 
         with open(os.path.join(".", self.data_folder, "{}.json".format(filename)), "w+") as file:
             json.dump(data, file)
@@ -393,7 +394,8 @@ class CalendarData:
                 for month in data[KEY_TASKS][KEY_REPETITIVE_HIDDEN_TASK][task_id][year]:
                     task_date = datetime(int(year), int(month), 1, 0, 0)
                     if (current_date - task_date).days > current_app.config["DAYS_PAST_TO_KEEP_HIDDEN_TASKS"]:
-                        tasks_to_delete.append((year, month, task_id))
+                        pass
+                        # tasks_to_delete.append((year, month, task_id))
 
         for task_info in tasks_to_delete:
             year, month, task_id = task_info
